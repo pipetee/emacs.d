@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: headline-2
+# key: =2
+# --
+=====$1=====
+$0

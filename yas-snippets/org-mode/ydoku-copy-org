@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: ydokucc
+# key: ccc
+# --
+$0
+#+BEGIN_EXPORT html
+<div class="cc-license">
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">
+<img alt="by-nc-sa-v3.0" style="border-width:0; margin:-3px;" src="$1/style/l/by-nc-sa/3.0/80x15.png" />
+如无特别说明本站所有作品均采用知识共享署名-非商业性使用-相同方式共享 3.0 未本地化版本许可协议进行许可
+</a>
+</div>
+#+END_EXPORT
+

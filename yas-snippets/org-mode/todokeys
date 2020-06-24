@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: todokeys
+# key: todokeys
+# --
+#+TODO: TODO DOING--> | DONE
+#+TODO: NEXT |
+#+TODO: DELEGATE | CONFIRM
+#+TODO: FUTURE |
+#+TODO: | CANCELED

@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: <d
+# key: <d
+# --
+#+BEGIN_SRC dot :cmdline -Tpng :file `(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`/$1.png
+  digraph G{
+          rankdir=LR;
+          node [fontsize=10, fontname = "Lucida console, Microsoft Yahei",
+          shape=record
+          ]
+          $0         
+  }
+#+END_SRC

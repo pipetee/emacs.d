@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: orgimgzoomheader
+# key: zoomheader
+# --
+#+HTML_HEAD: <script src="/style/jquery-3.2.1/jquery.min.js"></script>
+#+HTML_HEAD: <script src="/style/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" href="/style/zoom.css" />
+#+HTML_HEAD: <script src="/style/zoom.js"></script>

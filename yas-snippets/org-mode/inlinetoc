@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: inlinetoc
+# key: inlinetoc
+# --
+#+TOC: headlines 3

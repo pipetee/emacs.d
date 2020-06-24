@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: baiduhead
+# key: baiduhead
+# --
+#+HTML_HEAD:<script src="$1/style/baidu-statistics.js"></script>$0

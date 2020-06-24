@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: codehighlighthead
+# key: codehighlighthead
+# --
+#+HTML_HEAD: <link rel="stylesheet" href="$1/style/highlight/styles/vs.css">
+#+HTML_HEAD: <script src="$1/style/highlight/highlight.pack.js"></script>
+#+HTML_HEAD: <script>hljs.initHighlightingOnLoad();</script>
+#+HTML_HEAD: <script src="$1/style/org-common.js"></script>$0

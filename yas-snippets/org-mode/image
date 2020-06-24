@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: image
+# key: image
+# --
+#+ATTR_HTML: :style display: block; margin-left: auto; margin-right: auto;
+#+ATTR_HTML: :width 100%
+#+CAPTION: $0

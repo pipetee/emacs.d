@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: itoc
+# key: itoc
+# --
+#+TOC: headlines 2$0

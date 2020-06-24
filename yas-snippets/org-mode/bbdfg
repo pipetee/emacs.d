@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: bbdfg
+# key: bbdfg
+# --
+    $1 [label="<p> &#92;n$1
+        | {}"];

@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: 4c
+# key: 4c
+# --
+|$1|$2|$3|$4|$0

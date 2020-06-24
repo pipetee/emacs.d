@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : function name(params)
+# --
+function ${1:foo}($2) {
+  $0
+}

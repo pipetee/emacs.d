@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: sub
+# key: sub
+# --
+sub $1 {
+  $0
+}

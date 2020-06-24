@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mono
+# key: ''
+# --
+''$1'' $0

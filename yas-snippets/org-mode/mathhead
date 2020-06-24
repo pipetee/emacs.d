@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mathhead
+# key: mathhead
+# --
+#+HTML_MATHJAX: align: left indent: 5em tagside: left font: Neo-Euler$0

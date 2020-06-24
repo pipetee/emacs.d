@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: link-normal
+# key: =ll
+# --
+[[$1|$2]]$0

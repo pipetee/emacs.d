@@ -1,0 +1,7 @@
+#contributor : Anders Bach Nielsen <abachn@abachn.net>
+#name : <tag> \n...\n</tag>
+#key  : t2
+# --
+<${1:tag}>
+  $0
+</$1>

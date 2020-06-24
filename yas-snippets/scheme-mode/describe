@@ -1,0 +1,14 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: describe
+# key: describe
+# --
+;; question:
+;; $0
+;;
+;; input:
+;;
+;;
+;; output:
+;;
+;;
+;; code:

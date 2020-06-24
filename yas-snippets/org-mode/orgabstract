@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: orgabstract
+# key: orgabstract
+# --
+#+BEGIN_ABSTRACT
+$0
+#+END_ABSTRACT

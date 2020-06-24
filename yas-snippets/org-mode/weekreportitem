@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: week report item
+# key: weekreportitem
+# --
+* `(format-time-string "%F")`
+** 本周工作要点
+*** $0
+
+** 下周工作安排

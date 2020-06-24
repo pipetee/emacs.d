@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: mono
+# key: mono
+# --
+~$1~ $0

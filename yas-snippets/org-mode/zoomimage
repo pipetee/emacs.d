@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: zoomimage
+# key: zoomimage
+# --
+#+ATTR_HTML: :style display: block; margin-left: auto; margin-right: auto;
+#+ATTR_HTML: :width 80%
+#+ATTR_HTML: :data-action zoom
+#+CAPTION: $0

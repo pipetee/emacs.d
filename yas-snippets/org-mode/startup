@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: startup
+# key: startup
+# --
+#+OPTIONS: ^:t ':t *:t f:t |:t <:t toc:${2:nil} H:3 num:${3:nil}
+#+STARTUP: logdone logrepeat logreschedule logredeadline lognoteredeadline
+#+STARTUP: logdrawer logstatesreversed
+#+STARTUP: showall indent inlineimages align hidestars
+#+STARTUP: fninline hideblocks
+$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: htmlimgcenter
+# key: htmlimgcenter
+# --
+#+ATTR_HTML: :style display: block; margin-left: auto; margin-right: auto;
