@@ -24,6 +24,19 @@
      packages)
     )
 
+(defun text-terminal ()
+  (not (display-graphic-p)))
+
+;; from https://stackoverflow.com/questions/10660060/how-do-i-bind-c-in-emacs/40222318#40222318
+(defun yam/global-map-and-set-key (key command &optional prefix suffix)
+   "`yam/map-key' KEY then `global-set-key' KEY with COMMAND.
+ PREFIX or SUFFIX can wrap the key when passing to `global-set-key'."
+   (yam/map-key key)
+   (global-set-key (kbd (concat prefix key suffix)) command))
+
+(defun yam/map-key (key)
+  "Map KEY from escape sequence \"\e[emacs-KEY\."
+  (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
 
 (if (fboundp 'with-eval-after-load)
     (defalias 'after-load 'with-eval-after-load)
@@ -185,7 +198,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(undo-tree neotree yasnippet exec-path-from-shell go-mode)))
+	(multiple-cursors undo-tree neotree yasnippet exec-path-from-shell go-mode)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(size-indication-mode t)
@@ -256,3 +269,20 @@
 (require-package 'undo-tree)
 (require 'undo-tree)
 (global-undo-tree-mode)
+
+(require-package 'multiple-cursors)
+(require 'multiple-cursors)
+;; see this for keybind issue in iterm2
+;; https://stackoverflow.com/questions/48228540/how-in-type-c-or-c-in-emacs-run-inside-iterm2-on-mac-sierra
+(if (text-terminal)
+	(progn
+	  ;;(yam/global-map-and-set-key "C-S-c C-S-c" 'mc/edit-lines)
+	  (yam/global-map-and-set-key "C->" 'mc/mark-next-like-this)
+	  (yam/global-map-and-set-key "C-<" 'mc/mark-previous-like-this)
+	  (yam/global-map-and-set-key "C-c C-<" 'mc/mark-all-like-this)
+	  )
+  (progn
+	(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+	(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+	(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+	(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)))
