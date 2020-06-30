@@ -113,6 +113,11 @@
     )
   )
 
+(defun yam/insert-time ()
+  "插入日期串"
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d %H:%M:%S")))
+
 (defun yam/open-and-select-buffer-list ()
   "打开 buffer list 并选中"
   (interactive)
@@ -142,6 +147,10 @@
      (goto-char (point-min)) (delete-blank-lines)
      (goto-char (point-max)) (delete-blank-lines)
      (point)) t))
+
+(if (text-terminal)
+	(yam/global-map-and-set-key "C-M-=" 'yam/indent-buffer)
+  (global-set-key (kbd "C-M-=") 'yam/indent-buffer))
 
 (defun yam/indent-buffer ()
   "缩进当前buffer的全部内容"
