@@ -185,7 +185,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(all-the-icons-dired all-the-icons all-the-icons-ibuffer all-the-icons-ivy all-the-icons-ivy-rich neotree yasnippet exec-path-from-shell go-mode)))
+	(undo-tree neotree yasnippet exec-path-from-shell go-mode)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(size-indication-mode t)
@@ -212,10 +212,10 @@
 (yas-global-mode 1)
 
 
-(require-package 'all-the-icons)
-(require 'all-the-icons)
-(require-package 'all-the-icons-dired)
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;;(require-package 'all-the-icons)
+;;(require 'all-the-icons)
+;;(require-package 'all-the-icons-dired)
+;;(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 
 (setq inhibit-compacting-font-caches t)
@@ -253,4 +253,6 @@
 
 ;;(global-set-key [f8] 'neotree-toggle)
 
-
+(require-package 'undo-tree)
+(require 'undo-tree)
+(global-undo-tree-mode)
