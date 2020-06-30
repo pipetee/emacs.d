@@ -2,5 +2,4 @@
 # name: printf
 # key: sout
 # --
-fmt.Printf("${1:fmt}\n"${2:,str})
-$0
+fmt.Printf("${1:fmt}\n", $0)

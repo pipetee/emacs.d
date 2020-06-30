@@ -1,6 +1,39 @@
 (require 'package)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("popkit" . "http://elpa.popkit.org/packages/"))
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
+
 (package-initialize)
+
+(defun require-package (&rest packages)
+    "Assure every package is installed, ask for installation if it’s not.
+   Return a list of installed packages or nil for every skipped package."
+    (mapcar
+     (lambda (package)
+       (unless (package-installed-p package)
+	 (package-install package)))
+     packages)
+    )
+
+
+(if (fboundp 'with-eval-after-load)
+    (defalias 'after-load 'with-eval-after-load)
+  (defmacro after-load (feature &rest body)
+    "After FEATURE is loaded, evaluate BODY."
+    (declare (indent defun))
+    `(eval-after-load ,feature
+              '(progn ,@body))))
+(require-package 'use-package)
+(require 'use-package)
 
 
 (when (display-graphic-p)
@@ -30,6 +63,13 @@
 (setq-default cursor-type 'box)
 (setq display-time-24hr-format t)
 (setq ring-bell-function (lambda () (message "BEEP BEEP !!!")))
+(toggle-indicate-empty-lines)
+(electric-pair-mode)
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+		   (abbreviate-file-name (buffer-file-name))
+		 "%b"))))
+
 
 (require 'dired-x)
 (setq dired-omit-files "^\\.?#\\|^\\..*")
@@ -38,17 +78,19 @@
         (dired-hide-details-mode)
 		(dired-omit-mode)))
 
-
-(defun new-shell (name)
-  "默认只能打开一个shell，调用这里的newshell可以打开多个shell
-这里会先询问你新的shell的标题名，即打开一个新的shell，命名为不同的名称"
-  (interactive "sBuffer name: ")
-  (shell name))
-
-(defun localshell ()
-  "打开一个名为 shell 的 shell"
-  (interactive)
-  (shell "shell"))
+(defun shell (name)
+  "默认只能打开一个eshell，调用这里的neweshell可以打开多个eshell
+这里会先询问你新的eshell的标题名，即打开一个新的eshell，命名为不同的名称"
+  (interactive "sShell's name: ")
+  (with-selected-window
+   (selected-window)
+   (if (> (string-width name) 0)
+	   (if (get-buffer name)
+		   (pop-to-buffer name)
+		 (progn
+		   (eshell "new")
+		   (rename-buffer name)))
+	 (eshell))))
 
 (defun show-file-path ()
   (interactive)
@@ -68,6 +110,16 @@
 			   (isearch-forward)
 			   )))
 (global-set-key (kbd "C-x C-b") 'yam/open-and-select-buffer-list)
+
+(global-set-key (kbd "C-A") 'yam/auto-beginning-of-line)
+(defun yam/auto-beginning-of-line ()
+  "跳转到当前行的最开始或者第一个非空字符处"
+  (interactive)
+  (let ((crt-point (point))
+        (line-begin-point (progn (beginning-of-line) (point)))
+        (text-begin-point (progn (beginning-of-line-text) (point))))
+    (if (equal crt-point text-begin-point)
+        (goto-char line-begin-point))))
 
 (defun yam/kill-buffer-head-tail-blank-lines ()
   "去除当前buffer的首尾空行"
@@ -131,7 +183,9 @@
  '(column-number-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
  '(menu-bar-mode nil)
- '(package-selected-packages (quote (yasnippet exec-path-from-shell go-mode)))
+ '(package-selected-packages
+   (quote
+	(all-the-icons-dired all-the-icons all-the-icons-ibuffer all-the-icons-ivy all-the-icons-ivy-rich neotree yasnippet exec-path-from-shell go-mode)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(size-indication-mode t)
@@ -150,9 +204,53 @@
 ;; exec-path-from-shell
 ;; go-mode
 ;; yasnippet
+;; all-the-icons*
+;; neotree
 
 (setq yas-snippet-dirs '("~/.emacs.d/yas-snippets/"))
 (require 'yasnippet)
 (yas-global-mode 1)
+
+
+(require-package 'all-the-icons)
+(require 'all-the-icons)
+(require-package 'all-the-icons-dired)
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+
+(setq inhibit-compacting-font-caches t)
+;; M-x all-the-icons-install-fonts
+
+;; https://github.com/jaypei/emacs-neotree
+;; n next line, p previous line。
+;; SPC or RET or TAB Open current item if it is a file. Fold/Unfold current item if it is a directory.
+;; U Go up a directory
+;; g Refresh
+;; A Maximize/Minimize the NeoTree Window
+;; H Toggle display hidden files
+;; O Recursively open a directory
+;; C-c C-n Create a file or create a directory if filename ends with a ‘/’
+;; C-c C-d Delete a file or a directory.
+;; C-c C-r Rename a file or a directory.
+;; C-c C-c Change the root directory.
+;; C-c C-p Copy a file or a directory.
+(require-package 'neotree)
+(require 'neotree)
+(setq neo-theme (if (display-graphic-p) 'arrow))
+;; Every time when the neotree window is opened, let it find current file and jump to node.
+(setq neo-smart-open t)
+(setq neo-window-fixed-size nil)
+;; Set the neo-window-width to the current width of the
+  ;; neotree window, to trick neotree into resetting the
+  ;; width back to the actual window width.
+  ;; Fixes: https://github.com/jaypei/emacs-neotree/issues/262
+  (eval-after-load "neotree"
+    '(add-to-list 'window-size-change-functions
+                  (lambda (frame)
+                    (let ((neo-window (neo-global--get-window)))
+                      (unless (null neo-window)
+                        (setq neo-window-width (window-width neo-window)))))))
+
+;;(global-set-key [f8] 'neotree-toggle)
 
 
