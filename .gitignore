@@ -9,3 +9,5 @@ recentf
 smex-items
 transient/
 .mc-lists.el
+saveplace
+backups/

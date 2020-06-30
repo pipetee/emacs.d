@@ -68,7 +68,10 @@
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message "")
 (setq initial-major-mode 'fundamental-mode)
-(setq backup-directory-alist (quote (("." . "~/.emacs-backups"))))
+(setq backup-directory-alist (quote (("." . "~/.emacs.d/backups"))))
+(setq save-place-file "~/.emacs.d/saveplace")
+(require 'saveplace)
+(save-place-mode)
 (require 'whitespace)
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
@@ -157,6 +160,7 @@
   (interactive)
   (push-mark
    (save-excursion
+	 (delete-trailing-whitespace)
      (indent-region (point-min) (point-max))
 	 (yam/kill-buffer-head-tail-blank-lines)
      (point)) t)
@@ -207,7 +211,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(expand-region multiple-cursors undo-tree neotree yasnippet exec-path-from-shell go-mode)))
+	(idomenu smex ido-at-point ido-yes-or-no ido-vertical-mode expand-region multiple-cursors undo-tree neotree yasnippet exec-path-from-shell go-mode)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(size-indication-mode t)
@@ -301,3 +305,47 @@
 (if (text-terminal)
 	(yam/global-map-and-set-key "C-=" 'er/expand-region)
   (global-set-key (kbd "C-=") 'er/expand-region))
+
+
+(ido-mode t)
+(ido-everywhere t)
+(setq ido-enable-flex-matching t
+      ido-use-filename-at-point nil
+      ido-auto-merge-work-directories-length 0
+      ido-create-new-buffer 'always
+      ido-max-prospects 10
+      ido-case-fold nil
+      ido-use-virtual-buffers t)
+
+;;(require-package 'flx-ido)
+;;(flx-ido-mode)
+
+(setq ido-use-faces nil)
+
+(require-package 'ido-vertical-mode)
+(ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+
+(require-package 'ido-yes-or-no)
+(ido-yes-or-no-mode)
+
+(require-package 'ido-at-point)
+(ido-at-point-mode)
+
+(require-package 'ido-completing-read+)
+(require 'ido-completing-read+)
+(ido-ubiquitous-mode t)
+
+(require-package 'smex)
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+
+(require-package 'idomenu)
+(require 'idomenu)
+
+;; Allow the same buffer to be open in different frames
+(setq ido-default-buffer-method 'selected-window)
