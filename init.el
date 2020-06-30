@@ -15,24 +15,24 @@
 (package-initialize)
 
 (defun require-package (&rest packages)
-    "Assure every package is installed, ask for installation if it’s not.
+  "Assure every package is installed, ask for installation if it’s not.
    Return a list of installed packages or nil for every skipped package."
-    (mapcar
-     (lambda (package)
-       (unless (package-installed-p package)
-	 (package-install package)))
-     packages)
-    )
+  (mapcar
+   (lambda (package)
+	 (unless (package-installed-p package)
+	   (package-install package)))
+   packages)
+  )
 
 (defun text-terminal ()
   (not (display-graphic-p)))
 
 ;; from https://stackoverflow.com/questions/10660060/how-do-i-bind-c-in-emacs/40222318#40222318
 (defun yam/global-map-and-set-key (key command &optional prefix suffix)
-   "`yam/map-key' KEY then `global-set-key' KEY with COMMAND.
+  "`yam/map-key' KEY then `global-set-key' KEY with COMMAND.
  PREFIX or SUFFIX can wrap the key when passing to `global-set-key'."
-   (yam/map-key key)
-   (global-set-key (kbd (concat prefix key suffix)) command))
+  (yam/map-key key)
+  (global-set-key (kbd (concat prefix key suffix)) command))
 
 (defun yam/map-key (key)
   "Map KEY from escape sequence \"\e[emacs-KEY\."
@@ -44,7 +44,7 @@
     "After FEATURE is loaded, evaluate BODY."
     (declare (indent defun))
     `(eval-after-load ,feature
-              '(progn ,@body))))
+	   '(progn ,@body))))
 (require-package 'use-package)
 (require 'use-package)
 
@@ -80,30 +80,30 @@
 (electric-pair-mode)
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
-		   (abbreviate-file-name (buffer-file-name))
-		 "%b"))))
+				   (abbreviate-file-name (buffer-file-name))
+				 "%b"))))
 
 
 (require 'dired-x)
 (setq dired-omit-files "^\\.?#\\|^\\..*")
 (add-hook 'dired-mode-hook
-      (lambda ()
-        (dired-hide-details-mode)
-		(dired-omit-mode)))
+		  (lambda ()
+			(dired-hide-details-mode)
+			(dired-omit-mode)))
 
-(defun shell (name)
+(defun yam/shell (name)
   "默认只能打开一个eshell，调用这里的neweshell可以打开多个eshell
 这里会先询问你新的eshell的标题名，即打开一个新的eshell，命名为不同的名称"
   (interactive "sShell's name: ")
   (with-selected-window
-   (selected-window)
-   (if (> (string-width name) 0)
-	   (if (get-buffer name)
-		   (pop-to-buffer name)
-		 (progn
-		   (eshell "new")
-		   (rename-buffer name)))
-	 (eshell))))
+	  (selected-window)
+	(if (> (string-width name) 0)
+		(if (get-buffer name)
+			(pop-to-buffer name)
+		  (progn
+			(eshell "new")
+			(rename-buffer name)))
+	  (eshell))))
 
 (defun show-file-path ()
   (interactive)
@@ -149,7 +149,7 @@
   (push-mark
    (save-excursion
      (indent-region (point-min) (point-max))
-     (kill-buffer-head-tail-blanklines)
+	 (yam/kill-buffer-head-tail-blank-lines)
      (point)) t)
   (message "The whole buffer was indented"))
 
@@ -198,7 +198,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(multiple-cursors undo-tree neotree yasnippet exec-path-from-shell go-mode)))
+	(expand-region multiple-cursors undo-tree neotree yasnippet exec-path-from-shell go-mode)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(size-indication-mode t)
@@ -254,15 +254,15 @@
 (setq neo-smart-open t)
 (setq neo-window-fixed-size nil)
 ;; Set the neo-window-width to the current width of the
-  ;; neotree window, to trick neotree into resetting the
-  ;; width back to the actual window width.
-  ;; Fixes: https://github.com/jaypei/emacs-neotree/issues/262
-  (eval-after-load "neotree"
-    '(add-to-list 'window-size-change-functions
-                  (lambda (frame)
-                    (let ((neo-window (neo-global--get-window)))
-                      (unless (null neo-window)
-                        (setq neo-window-width (window-width neo-window)))))))
+;; neotree window, to trick neotree into resetting the
+;; width back to the actual window width.
+;; Fixes: https://github.com/jaypei/emacs-neotree/issues/262
+(eval-after-load "neotree"
+  '(add-to-list 'window-size-change-functions
+				(lambda (frame)
+				  (let ((neo-window (neo-global--get-window)))
+					(unless (null neo-window)
+					  (setq neo-window-width (window-width neo-window)))))))
 
 ;;(global-set-key [f8] 'neotree-toggle)
 
@@ -286,3 +286,9 @@
 	(global-set-key (kbd "C->") 'mc/mark-next-like-this)
 	(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 	(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)))
+
+(require-package 'expand-region)
+(require 'expand-region)
+(if (text-terminal)
+	(yam/global-map-and-set-key "C-=" 'er/expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region))
