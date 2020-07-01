@@ -226,13 +226,6 @@
 
 
 
-;; installed 3rd package
-;; exec-path-from-shell
-;; go-mode
-;; yasnippet
-;; all-the-icons*
-;; neotree
-
 (setq yas-snippet-dirs '("~/.emacs.d/yas-snippets/"))
 (require 'yasnippet)
 (yas-global-mode 1)
@@ -277,7 +270,7 @@
 					(unless (null neo-window)
 					  (setq neo-window-width (window-width neo-window)))))))
 
-;;(global-set-key [f8] 'neotree-toggle)
+(global-set-key [f8] 'neotree-toggle)
 
 (require-package 'undo-tree)
 (require 'undo-tree)
